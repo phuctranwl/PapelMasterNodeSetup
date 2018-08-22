@@ -20,10 +20,10 @@ GREEN='\033[0;32m'
 NC='\033[0m'
 
 function create_config() {
-  mkdir $CONFIGFOLDER
+  sudo mkdir $CONFIGFOLDER
   RPCUSER=$(tr -cd '[:alnum:]' < /dev/urandom | fold -w10 | head -n1)
   RPCPASSWORD=$(tr -cd '[:alnum:]' < /dev/urandom | fold -w22 | head -n1)
-  cat << EOF > $CONFIGFOLDER/$CONFIG_FILE
+  sudo cat << EOF > $CONFIGFOLDER/$CONFIG_FILE
 rpcuser=$RPCUSER
 rpcpassword=$RPCPASSWORD
 rpcport=$RPC_PORT
@@ -58,7 +58,7 @@ fi
 }
 
 function update_config() {
-  cat << EOF >> $CONFIGFOLDER/$CONFIG_FILE
+  sudo cat << EOF >> $CONFIGFOLDER/$CONFIG_FILE
 logintimestamps=1
 maxconnections=256
 #bind=$NODEIP
