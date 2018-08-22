@@ -164,6 +164,7 @@ function setup_node() {
 }
 
 function start_node() {
+    sudo chmod 777 -R ~/.papelcore
     ~/papeld && watch ~/papel-cli getinfo
     watch ~/papel-cli masternode status
 }
