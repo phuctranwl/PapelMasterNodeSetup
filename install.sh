@@ -21,6 +21,8 @@ NC='\033[0m'
 
 function create_config() {
   sudo mkdir $CONFIGFOLDER
+  sudo chmod 777 -R $CONFIGFOLDER
+  
   RPCUSER=$(tr -cd '[:alnum:]' < /dev/urandom | fold -w10 | head -n1)
   RPCPASSWORD=$(tr -cd '[:alnum:]' < /dev/urandom | fold -w22 | head -n1)
   sudo cat << EOF > $CONFIGFOLDER/$CONFIG_FILE
@@ -164,8 +166,7 @@ function setup_node() {
 }
 
 function start_node() {
-    sudo chmod 777 -R ~/.papelcore
-    ~/papeld && watch ~/papel-cli getinfo
+    ~/papeld -daemon && watch ~/papel-cli getinfo
     watch ~/papel-cli masternode status
 }
 
