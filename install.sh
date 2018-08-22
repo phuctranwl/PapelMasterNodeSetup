@@ -22,19 +22,18 @@ NC='\033[0m'
 function create_config() {
   sudo mkdir $CONFIGFOLDER
   sudo chmod 777 -R $CONFIGFOLDER
-  
+
   RPCUSER=$(tr -cd '[:alnum:]' < /dev/urandom | fold -w10 | head -n1)
   RPCPASSWORD=$(tr -cd '[:alnum:]' < /dev/urandom | fold -w22 | head -n1)
-  sudo cat << EOF > $CONFIGFOLDER/$CONFIG_FILE
-rpcuser=$RPCUSER
+  echo "rpcuser=$RPCUSER
 rpcpassword=$RPCPASSWORD
 rpcport=$RPC_PORT
 rpcallowip=127.0.0.1
 listen=1
 server=1
 daemon=1
-port=$COIN_PORT
-EOF
+port=$COIN_PORT"
+> $CONFIGFOLDER/$CONFIG_FILE
 }
 
 function create_key() {
@@ -60,14 +59,13 @@ fi
 }
 
 function update_config() {
-  sudo cat << EOF >> $CONFIGFOLDER/$CONFIG_FILE
+  echo "
 logintimestamps=1
 maxconnections=256
 #bind=$NODEIP
 masternode=1
 externalip=$NODEIP:$COIN_PORT
-masternodeprivkey=$COINKEY
-EOF
+masternodeprivkey=$COINKEY" > $CONFIGFOLDER/$CONFIG_FILE
 }
 
 function get_ip() {
@@ -176,4 +174,4 @@ function start_node() {
 checks
 prepare_system
 setup_node
-start_node
+#start_node
