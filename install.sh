@@ -20,20 +20,8 @@ GREEN='\033[0;32m'
 NC='\033[0m'
 
 function create_config() {
-  sudo mkdir $CONFIGFOLDER
+  mkdir $CONFIGFOLDER
   sudo chmod 777 -R $CONFIGFOLDER
-
-  RPCUSER=$(tr -cd '[:alnum:]' < /dev/urandom | fold -w10 | head -n1)
-  RPCPASSWORD=$(tr -cd '[:alnum:]' < /dev/urandom | fold -w22 | head -n1)
-  echo "rpcuser=$RPCUSER
-rpcpassword=$RPCPASSWORD
-rpcport=$RPC_PORT
-rpcallowip=127.0.0.1
-listen=1
-server=1
-daemon=1
-port=$COIN_PORT"
-> $CONFIGFOLDER/$CONFIG_FILE
 }
 
 function create_key() {
@@ -59,7 +47,17 @@ fi
 }
 
 function update_config() {
-  echo "
+  RPCUSER=$(tr -cd '[:alnum:]' < /dev/urandom | fold -w10 | head -n1)
+  RPCPASSWORD=$(tr -cd '[:alnum:]' < /dev/urandom | fold -w22 | head -n1)
+
+  echo "rpcuser=$RPCUSER
+rpcpassword=$RPCPASSWORD
+rpcport=$RPC_PORT
+rpcallowip=127.0.0.1
+listen=1
+server=1
+daemon=1
+port=$COIN_PORT
 logintimestamps=1
 maxconnections=256
 #bind=$NODEIP
@@ -125,19 +123,7 @@ wget https://github.com/papelcoin/papelcoin/releases/download/1.0.0.4/Papel.Core
 unzip Papel.Core.Linux.zip && 
 sudo apt-get update -y && sudo apt-get -y install python-virtualenv -y && git clone https://github.com/papelcoin/sentinel.git && cd sentinel -y && sudo apt install virtualenv -y && virtualenv ./venv && sudo ./venv/bin/pip install -r requirements.txt
 echo "* * * * * cd /root/sentinel && SENTINEL_DEBUG=1 ./venv/bin/python bin/sentinel.py >> sentinel.log 2>&1" | sudo tee /var/spool/cron/crontabs/root
-
-if [ "$?" -gt "0" ];
-  then
-    echo -e "${RED}Not all required packages were installed properly. Try to install them manually by running the following commands:${NC}\n"
-    echo "apt-get update"
-    echo "apt -y install software-properties-common"
-    echo "apt-add-repository -y ppa:bitcoin/bitcoin"
-    echo "apt-get update"
-    echo "apt install -y make build-essential libtool software-properties-common autoconf libssl-dev libboost-dev libboost-chrono-dev libboost-filesystem-dev \
-libboost-program-options-dev libboost-system-dev libboost-test-dev libboost-thread-dev sudo automake git curl libdb4.8-dev \
-bsdmainutils libdb4.8++-dev libminiupnpc-dev libgmp3-dev ufw pkg-config libevent-dev unzip"
- exit 1
-fi
+cd ~
 
 }
 
@@ -174,4 +160,4 @@ function start_node() {
 checks
 prepare_system
 setup_node
-#start_node
+start_node
