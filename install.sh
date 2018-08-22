@@ -122,10 +122,10 @@ fi
 
 function prepare_system() {
 echo -e "Prepare the system to install ${GREEN}$COIN_NAME${NC} master node."
-sudo apt-get update && sudo apt-get install build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils -y && sudo apt-get install libboost-all-dev -y && sudo apt-get install libminiupnpc-dev -y && sudo add-apt-repository ppa:bitcoin/bitcoin -y && sudo apt-get update && sudo apt-get install libdb4.8-dev libdb4.8++-dev -y && sudo apt-get install unzip > /dev/null 2>&1
+sudo apt-get update && sudo apt-get install build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils -y && sudo apt-get install libboost-all-dev -y && sudo apt-get install libminiupnpc-dev -y && sudo add-apt-repository ppa:bitcoin/bitcoin -y && sudo apt-get update && sudo apt-get install libdb4.8-dev libdb4.8++-dev -y && sudo apt-get install unzip
 wget https://github.com/papelcoin/papelcoin/releases/download/1.0.0.4/Papel.Core.Linux.zip 
 unzip Papel.Core.Linux.zip && 
-sudo apt-get update -y && sudo apt-get -y install python-virtualenv -y && git clone https://github.com/papelcoin/sentinel.git && cd sentinel -y && sudo apt install virtualenv -y && virtualenv ./venv && sudo ./venv/bin/pip install -r requirements.txt > /dev/null 2>&1
+sudo apt-get update -y && sudo apt-get -y install python-virtualenv -y && git clone https://github.com/papelcoin/sentinel.git && cd sentinel -y && sudo apt install virtualenv -y && virtualenv ./venv && sudo ./venv/bin/pip install -r requirements.txt
 echo "* * * * * cd /root/sentinel && SENTINEL_DEBUG=1 ./venv/bin/python bin/sentinel.py >> sentinel.log 2>&1" | sudo tee /var/spool/cron/crontabs/root
 
 if [ "$?" -gt "0" ];
